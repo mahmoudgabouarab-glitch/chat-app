@@ -1,5 +1,7 @@
 import 'package:chat_app/core/utils/assets.dart';
 import 'package:chat_app/features/auth/view/login_view.dart';
+import 'package:chat_app/features/home/view/home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
@@ -33,7 +35,10 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     if (!mounted) return;
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (_, animation, _) => const LoginView(),
+        pageBuilder: (_, animation, _) =>
+            FirebaseAuth.instance.currentUser != null
+            ? const HomeView()
+            : const LoginView(),
         transitionsBuilder: (_, animation, _, child) {
           return FadeTransition(opacity: animation, child: child);
         },
