@@ -8,8 +8,13 @@ class LoginAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<LoginCubit>();
     return Btn(
-      ontap: () => context.read<LoginCubit>().loginWithEmailAndPassword(),
+      ontap: () {
+        if (cubit.key.currentState!.validate()) {
+          cubit.loginWithEmailAndPassword();
+        }
+      },
       text: 'Login',
     );
   }

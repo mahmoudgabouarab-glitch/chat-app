@@ -8,27 +8,43 @@ class LoginTextFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Email"),
-        SizedBox(height: 10),
-        CustomTextFiled(
-          keybordtype: TextInputType.emailAddress,
-          hint: "Email",
-          controller: context.read<LoginCubit>().email,
-        ),
-        SizedBox(height: 20),
-        Text("Password"),
-        SizedBox(height: 10),
-        CustomTextFiled(
-          keybordtype: TextInputType.visiblePassword,
-          obscureText: true,
-          hint: "********",
-          controller: context.read<LoginCubit>().password,
-        ),
-        SizedBox(height: 20),
-      ],
+    final cubit = context.read<LoginCubit>();
+    return Form(
+      key: cubit.key,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Email"),
+          SizedBox(height: 10),
+          CustomTextFiled(
+            keybordtype: TextInputType.emailAddress,
+            hint: "Email",
+            controller: cubit.email,
+            validator: (val) {
+              if (val!.isEmpty) {
+                return 'Please enter email';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 20),
+          Text("Password"),
+          SizedBox(height: 10),
+          CustomTextFiled(
+            keybordtype: TextInputType.visiblePassword,
+            obscureText: true,
+            hint: "********",
+            controller: cubit.password,
+            validator: (val) {
+              if (val!.isEmpty) {
+                return 'Please enter password';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }

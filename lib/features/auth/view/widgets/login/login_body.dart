@@ -1,5 +1,6 @@
 import 'package:chat_app/core/utils/assets.dart';
 import 'package:chat_app/features/auth/view/widgets/login/login_action.dart';
+import 'package:chat_app/features/auth/view/widgets/login/login_listen.dart';
 import 'package:chat_app/features/auth/view/widgets/login/login_text_btn_signup.dart';
 import 'package:chat_app/features/auth/view/widgets/login/login_text_filed.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class LoginBody extends StatelessWidget {
               const LoginAction(),
               const SizedBox(height: 20),
               const LoginTextBtnSignup(),
+              const LoginListen(),
             ],
           ),
         ),

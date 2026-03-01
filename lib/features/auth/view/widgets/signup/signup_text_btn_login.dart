@@ -1,3 +1,4 @@
+import 'package:chat_app/core/utils/extension.dart';
 import 'package:chat_app/features/auth/view/login_view.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +12,7 @@ class SignupTextBtnLogin extends StatelessWidget {
       children: [
         Text("Already have an account?"),
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginView()),
-              (route) => false,
-            );
-          },
+          onPressed: () => context.pushAndRemoveUntil(LoginView()),
           child: const Text("Login"),
         ),
       ],

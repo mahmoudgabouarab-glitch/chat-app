@@ -13,11 +13,5 @@ final class LoginFailure extends LoginState {
   LoginFailure({required this.message});
 }
 
-final class ForgetPasswordLoading extends LoginState {}
 
-final class ForgetPasswordSuccess extends LoginState {}
 
-final class ForgetPasswordFailure extends LoginState {
-  final String message;
-  ForgetPasswordFailure({required this.message});
-}
