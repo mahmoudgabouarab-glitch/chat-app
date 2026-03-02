@@ -18,11 +18,12 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getMessage() async {
     emit(HomeLoading());
     try {
-      List<QueryDocumentSnapshot<Object?>> messages =
-          await FBHelper.getMessage();
-      emit(HomeSuccess(data: messages));
+      FBHelper.getMessage().listen((event) {
+        emit(HomeSuccess(data: event.docs));
+      });
     } on FirebaseException catch (e) {
       emit(HomeFailure(message: e.code));
+      print("-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-===$e");
     }
   }
 

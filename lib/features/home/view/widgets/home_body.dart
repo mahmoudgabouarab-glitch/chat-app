@@ -1,6 +1,10 @@
 import 'package:chat_app/features/home/view/widgets/home_app_bar.dart';
 import 'package:chat_app/features/home/view/widgets/home_text_filed.dart';
+import 'package:chat_app/features/home/view/widgets/one_of_message.dart';
+import 'package:chat_app/features/home/view_model/home_cubit.dart';
+import 'package:chat_app/features/home/view_model/home_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
@@ -10,54 +14,22 @@ class HomeBody extends StatelessWidget {
     return Scaffold(
       appBar: HomeAppBar(),
       bottomNavigationBar: HomeTextFiled(),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-          itemCount: test.length,
-          itemBuilder: (context, index) {
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                ),
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: test[index],
-                ),
-              ),
-            );
-          },
-        ),
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: state is HomeSuccess
+                ? ListView.builder(
+                    itemCount: state.data.length,
+                    itemBuilder: (context, index) {
+                      final data = state.data[index];
+                      return OneOfMessage(state: data);
+                    },
+                  )
+                : const Center(child: CircularProgressIndicator()),
+          );
+        },
       ),
     );
   }
 }
-
-List<Text> test = [
-  Text("Hello World , how are you?"),
-  Text("Hello  , how are you?"),
-  Text("Hello World , how are ?"),
-  Text("Hello World , how are you?"),
-  Text(" World , how are you?"),
-  Text("Hello World , how are you?"),
-  Text("Hello Woryou?"),
-  Text("Hello World , how are you?"),
-  Text("Hello World , how are you?"),
-  Text("Hel are you?"),
-  Text("Hello  are you?"),
-  Text("Hello World , how are you?"),
-  Text("Hello Worre you?"),
-  Text("Hello World , how are you?"),
-  Text("Heow are you?"),
-];

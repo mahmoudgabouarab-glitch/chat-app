@@ -33,12 +33,11 @@ class FBHelper {
   }
 
   // get message
-  static Future<List<QueryDocumentSnapshot<Object?>>> getMessage() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  static Stream getMessage() {
+    return FirebaseFirestore.instance
         .collection(FB.message)
         .where("id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .orderBy("createdAt", descending: true)
-        .get();
-    return querySnapshot.docs;
+        .orderBy("createdAt")
+        .snapshots();
   }
 }
