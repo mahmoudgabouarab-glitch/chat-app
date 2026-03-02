@@ -1,30 +1,31 @@
 import 'package:chat_app/core/utils/app_color.dart';
 import 'package:chat_app/core/widgets/custom_text_filed.dart';
+import 'package:chat_app/features/home/view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeTextFiled extends StatelessWidget {
   const HomeTextFiled({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController textEditingController = .new();
-    GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final cubit = context.read<HomeCubit>();
     return Form(
-      key: formKey,
+      key: cubit.formKey,
       child: SizedBox(
         height: 70,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
           child: ValueListenableBuilder(
-            valueListenable: textEditingController,
+            valueListenable: cubit.message,
             builder: (_, value, _) {
               return CustomTextFiled(
-                controller: textEditingController,
+                controller: cubit.message,
                 hint: "Message",
                 keybordtype: TextInputType.text,
                 suffix: value.text.isNotEmpty
                     ? IconButton(
-                        onPressed: () {},
+                        onPressed: () => cubit.addMessage(),
                         icon: const Icon(Icons.send),
                         color: AppColor.primary,
                       )
