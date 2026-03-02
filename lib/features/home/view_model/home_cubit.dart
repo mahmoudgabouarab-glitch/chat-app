@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:chat_app/core/network/fire_base_helper.dart';
 import 'package:chat_app/features/home/model/message_model.dart';
 import 'package:chat_app/features/home/view_model/home_state.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
+  StreamSubscription? _subscription;
   TextEditingController message = .new();
   GlobalKey<FormState> formKey = .new();
   //add message
@@ -19,12 +21,14 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getMessage() async {
     emit(HomeLoading());
     try {
-      FBHelper.getMessage().listen((event) {
+      _subscription = FBHelper.getMessage().listen((event) {
         final List<MessageModel> messages = event.docs
             .map<MessageModel>((doc) => MessageModel.fromJson(doc))
             .toList();
 
-        emit(HomeSuccess(data: messages));
+        if (!isClosed) {
+          emit(HomeSuccess(data: messages));
+        }
       });
     } on FirebaseException catch (e) {
       emit(HomeFailure(message: e.code));
@@ -50,6 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
   @override
   Future<void> close() {
     message.dispose();
+    _subscription?.cancel();
     return super.close();
   }
 }
