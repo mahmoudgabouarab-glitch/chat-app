@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chat_app/features/home/model/message_model.dart';
 
 sealed class HomeState {}
 
@@ -7,7 +7,7 @@ final class HomeInitial extends HomeState {}
 final class HomeLoading extends HomeState {}
 
 final class HomeSuccess extends HomeState {
-  final List<QueryDocumentSnapshot<Object?>> data;
+  final List<MessageModel> data;
   HomeSuccess({required this.data});
 }
 

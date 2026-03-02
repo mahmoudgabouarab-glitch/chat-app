@@ -1,4 +1,5 @@
 import 'package:chat_app/core/network/fire_base_helper.dart';
+import 'package:chat_app/features/home/model/message_model.dart';
 import 'package:chat_app/features/home/view_model/home_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
     try {
       FBHelper.getMessage().listen((event) {
-        emit(HomeSuccess(data: event.docs));
+        final List<MessageModel> messages = event.docs
+            .map<MessageModel>((doc) => MessageModel.fromJson(doc))
+            .toList();
+
+        emit(HomeSuccess(data: messages));
       });
     } on FirebaseException catch (e) {
       emit(HomeFailure(message: e.code));

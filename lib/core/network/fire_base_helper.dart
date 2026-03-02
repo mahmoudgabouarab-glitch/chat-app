@@ -33,10 +33,9 @@ class FBHelper {
   }
 
   // get message
-  static Stream getMessage() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMessage() {
     return FirebaseFirestore.instance
         .collection(FB.message)
-        .where("id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .orderBy("createdAt")
         .snapshots();
   }
