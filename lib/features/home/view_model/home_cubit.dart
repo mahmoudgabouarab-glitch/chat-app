@@ -11,6 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription? _subscription;
   TextEditingController message = .new();
   GlobalKey<FormState> formKey = .new();
+  
   //add message
   void addMessage() {
     FBHelper.addMessage(message: message.text);

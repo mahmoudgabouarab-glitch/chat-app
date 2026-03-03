@@ -12,26 +12,31 @@ class HomeTextFiled extends StatelessWidget {
     final cubit = context.read<HomeCubit>();
     return Form(
       key: cubit.formKey,
-      child: SizedBox(
-        height: 70,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
-          child: ValueListenableBuilder(
-            valueListenable: cubit.message,
-            builder: (_, value, _) {
-              return CustomTextFiled(
-                controller: cubit.message,
-                hint: "Message",
-                keybordtype: TextInputType.text,
-                suffix: value.text.isNotEmpty
-                    ? IconButton(
-                        onPressed: () => cubit.addMessage(),
-                        icon: const Icon(Icons.send),
-                        color: AppColor.primary,
-                      )
-                    : null,
-              );
-            },
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SizedBox(
+          height: 70,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
+            child: ValueListenableBuilder(
+              valueListenable: cubit.message,
+              builder: (_, value, _) {
+                return CustomTextFiled(
+                  controller: cubit.message,
+                  hint: "Message",
+                  keybordtype: TextInputType.text,
+                  suffix: value.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () => cubit.addMessage(),
+                          icon: const Icon(Icons.send),
+                          color: AppColor.primary,
+                        )
+                      : null,
+                );
+              },
+            ),
           ),
         ),
       ),

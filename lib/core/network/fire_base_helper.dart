@@ -36,7 +36,7 @@ class FBHelper {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMessage() {
     return FirebaseFirestore.instance
         .collection(FB.message)
-        .orderBy("createdAt")
+        .orderBy("createdAt", descending: true)
         .snapshots();
   }
 }

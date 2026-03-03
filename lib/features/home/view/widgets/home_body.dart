@@ -14,12 +14,14 @@ class HomeBody extends StatelessWidget {
     return Scaffold(
       appBar: HomeAppBar(),
       bottomNavigationBar: HomeTextFiled(),
+      resizeToAvoidBottomInset: true,
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(16),
             child: state is HomeSuccess
                 ? ListView.builder(
+                    reverse: true,
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
                       final data = state.data[index];
