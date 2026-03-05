@@ -10,8 +10,9 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
   StreamSubscription? _subscription;
   TextEditingController message = .new();
+  TextEditingController editMessage = .new();
   GlobalKey<FormState> formKey = .new();
-  
+
   //add message
   void addMessage() {
     FBHelper.addMessage(message: message.text);
@@ -26,7 +27,6 @@ class HomeCubit extends Cubit<HomeState> {
         final List<MessageModel> messages = event.docs
             .map<MessageModel>((doc) => MessageModel.fromJson(doc))
             .toList();
-
         if (!isClosed) {
           emit(HomeSuccess(data: messages));
         }
@@ -39,22 +39,23 @@ class HomeCubit extends Cubit<HomeState> {
 
   //delete message
   void deleteMessage({required String id}) {
-    FBHelper.deleteMessage(id: id);
+    try {
+      FBHelper.deleteMessage(id: id);
+    } on FirebaseException catch (e) {
+      print("-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-===$e");
+    }
   }
 
   //update message
-  void updateMessage({
-    required String editMessage,
-    required String fBD,
-    required String fBC,
-    required String id,
-  }) {
-    FBHelper.updateMessage(editMessage: editMessage, id: id);
+  void updateMessage({required String id}) {
+    FBHelper.updateMessage(editMessage: editMessage.text, id: id);
+    editMessage.clear();
   }
 
   @override
   Future<void> close() {
     message.dispose();
+    editMessage.dispose();
     _subscription?.cancel();
     return super.close();
   }

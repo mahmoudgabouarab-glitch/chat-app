@@ -5,11 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FBHelper {
   // add message
   static Future<void> addMessage({required String message}) async {
-    final int notificationId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     var messages = FirebaseFirestore.instance.collection(FB.message);
     await messages.add({
-      "messageId": notificationId,
-      "id": FirebaseAuth.instance.currentUser!.uid,
       "sender": FirebaseAuth.instance.currentUser!.email,
       "message": message,
       "createdAt": FieldValue.serverTimestamp(),
@@ -24,7 +21,6 @@ class FBHelper {
   // update message
   static Future<void> updateMessage({
     required String editMessage,
-
     required String id,
   }) async {
     await FirebaseFirestore.instance.collection(FB.message).doc(id).update({
