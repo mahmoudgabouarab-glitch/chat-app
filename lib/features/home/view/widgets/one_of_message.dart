@@ -17,19 +17,21 @@ class OneOfMessage extends StatelessWidget {
     final cubit = context.read<HomeCubit>();
     final isMe = state.sender == FirebaseAuth.instance.currentUser!.email;
     return GestureDetector(
-      onTap: () => _showDilog(
-        context,
-        onDelete: () => cubit.deleteMessage(id: state.docId),
-        onEdit: () {
-          context.popPage();
-          cubit.editMessage.text = state.message;
-          CustomShowBottomSheet.show(
-            context: context,
-            ontap: () => cubit.updateMessage(id: state.docId),
-            editMessageController: cubit.editMessage,
-          );
-        },
-      ),
+      onTap: () => isMe
+          ? _showDilog(
+              context,
+              onDelete: () => cubit.deleteMessage(id: state.docId),
+              onEdit: () {
+                context.popPage();
+                cubit.editMessage.text = state.message;
+                CustomShowBottomSheet.show(
+                  context: context,
+                  ontap: () => cubit.updateMessage(id: state.docId),
+                  editMessageController: cubit.editMessage,
+                );
+              },
+            )
+          : null,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.7,
@@ -42,8 +44,11 @@ class OneOfMessage extends StatelessWidget {
                 : CrossAxisAlignment.start,
             children: [
               Text(
-                state.sender,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                isMe ? "you" : state.sender,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[900],
+                ),
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 2),
